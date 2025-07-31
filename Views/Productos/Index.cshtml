@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ECommerceArtesanos.Models.Producto>
+
+@{
+    ViewData["Title"] = "Productos";
+}
+
+<h2 class="text-center mb-4">🛍️ Productos</h2>
+
+<p class="text-end">
+    <a href="@Url.Action("Create", "Productos")" class="btn btn-primary">➕ Crear nuevo producto</a>
+</p>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @foreach (var producto in Model)
+    {
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <img src="@producto.ImagenUrl" class="card-img-top" alt="@producto.Nombre" style="height: 200px; object-fit: cover;" />
+                <div class="card-body">
+                    <h5 class="card-title">@producto.Nombre</h5>
+                    <p class="card-text text-muted">@producto.Descripcion</p>
+                    <p class="fw-bold text-primary">@producto.Precio.ToString("C")</p>
+                    <p class="text-secondary small">Artesano: @producto.Artesano?.Nombre</p>
+                </div>
+                <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
+                    <div>
+                        <a href="@Url.Action("Edit", "Productos", new { id = producto.ProductoId })" class="btn btn-outline-primary btn-sm">Editar</a>
+                        <a href="@Url.Action("Delete", "Productos", new { id = producto.ProductoId })" class="btn btn-outline-danger btn-sm">Eliminar</a>
+                    </div>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <form asp-controller="Carrito" asp-action="Agregar" method="post" class="d-flex align-items-center" style="gap: 0.5rem;">
+                            <input type="hidden" name="productoId" value="@producto.ProductoId" />
+                            <input type="number" name="cantidad" value="1" min="1" class="form-control form-control-sm" style="width: 60px;" />
+                            <button type="submit" class="btn btn-success btn-sm">Agregar</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Login", "Account")" class="btn btn-outline-secondary btn-sm">Inicia sesión para comprar</a>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>

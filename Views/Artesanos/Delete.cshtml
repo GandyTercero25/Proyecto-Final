@@ -1,0 +1,22 @@
+﻿@model ECommerceArtesanos.Models.Artesano
+
+@{
+    ViewData["Title"] = "Eliminar Artesano";
+}
+
+<h1>Eliminar Artesano</h1>
+
+<h3>¿Estás seguro de que quieres eliminar este artesano?</h3>
+
+<div>
+    <h4>@Model.Nombre</h4>
+    <p>@Model.Descripcion</p>
+    <p>Ubicación: @Model.Ubicacion</p>
+</div>
+
+<form asp-action="Delete">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

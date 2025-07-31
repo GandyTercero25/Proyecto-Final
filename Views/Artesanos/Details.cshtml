@@ -1,0 +1,13 @@
+﻿@model ECommerceArtesanos.Models.Artesano
+
+@{
+    ViewData["Title"] = "Detalles del Artesano";
+}
+
+<h1>@Model.Nombre</h1>
+
+<p>@Model.Descripcion</p>
+<p>Ubicación: @Model.Ubicacion</p>
+
+<a href="@Url.Action("Edit", "Artesanos", new { id = Model.Id })" class="btn btn-primary">Editar</a>
+<a href="@Url.Action("Delete", "Artesanos", new { id = Model.Id })" class="btn btn-danger">Eliminar</a>

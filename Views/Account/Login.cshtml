@@ -1,0 +1,123 @@
+﻿@model LoginViewModel
+
+@{
+    ViewData["Title"] = "Iniciar sesión";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="text-center">@ViewData["Title"]</h2>
+                </div>
+                <div class="card-body">
+
+                    @* Mostrar errores generales *@
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger">
+                            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                            {
+                                <p>@error.ErrorMessage</p>
+                            }
+                        </div>
+                    }
+
+                    <form asp-action="Login" method="post" id="loginForm" novalidate>
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label">Correo electrónico</label>
+                            <input asp-for="Email" class="form-control" id="Email" aria-describedby="mensaje-dominio" />
+                            
+                            <!-- Mensaje dinámico para tipo de cuenta -->
+                            <span id="mensaje-dominio" class="form-text"></span>
+
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label">Contraseña</label>
+                            <input asp-for="Password" class="form-control" type="password" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input asp-for="RememberMe" class="form-check-input" />
+                            <label asp-for="RememberMe" class="form-check-label">Recordarme</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <a asp-action="Register" class="btn btn-link">¿No tienes cuenta? Regístrate</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        #mensaje-dominio {
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            margin-top: 0.25rem;
+        }
+        .card {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+    </style>
+}
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const emailInput = document.getElementById('Email');
+            const mensajeDominio = document.getElementById('mensaje-dominio');
+            const loginForm = document.getElementById('loginForm');
+
+            function actualizarMensajeDominio() {
+                const email = emailInput.value.trim().toLowerCase();
+
+                if (email === '') {
+                    mensajeDominio.textContent = "";
+                    mensajeDominio.className = 'form-text';
+                    return false;
+                }
+
+                if (!email.includes('@@') || !email.includes('.')) {
+                    mensajeDominio.textContent = '⚠ Formato de correo inválido';
+                    mensajeDominio.className = 'form-text text-danger';
+                    return false;
+                }
+
+                const isArtesano = email.endsWith('@@art.ec');
+                mensajeDominio.textContent = isArtesano
+                    ? '🔹 Cuenta de artesano'
+                    : '🔹 Cuenta de cliente';
+                mensajeDominio.className = isArtesano
+                    ? 'form-text text-success'
+                    : 'form-text text-info';
+
+                return true;
+            }
+
+            emailInput.addEventListener('blur', actualizarMensajeDominio);
+            emailInput.addEventListener('input', actualizarMensajeDominio);
+
+            loginForm.addEventListener('submit', function (e) {
+                if (!actualizarMensajeDominio()) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+}
+

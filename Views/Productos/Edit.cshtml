@@ -1,0 +1,27 @@
+﻿@model ECommerceArtesanos.Models.Producto
+
+@{
+    ViewData["Title"] = "Editar Producto";
+}
+
+<h1>Editar Producto</h1>
+
+<form asp-action="Edit" method="post">
+    <div class="form-group">
+        <label asp-for="Nombre"></label>
+        <input asp-for="Nombre" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Descripcion"></label>
+        <textarea asp-for="Descripcion" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label asp-for="Precio"></label>
+        <input asp-for="Precio" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="ArtesanoId"></label>
+        <input asp-for="ArtesanoId" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+</form>

@@ -1,0 +1,30 @@
+﻿@model IEnumerable<ECommerceArtesanos.Models.Artesano>
+
+@{
+    ViewData["Title"] = "Artesanos";
+}
+
+<h2 class="text-center mb-4">🎨 Nuestros Artesanos</h2>
+
+<p class="text-end">
+    <a href="@Url.Action("Create", "Artesanos")" class="btn btn-primary">➕ Crear nuevo artesano</a>
+</p>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @foreach (var artesano in Model)
+    {
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">@artesano.Nombre</h5>
+                    <p class="card-text">@artesano.Descripcion</p>
+                    <p class="text-muted">📍 @artesano.Ubicacion</p>
+                </div>
+                <div class="card-footer bg-white border-0 d-flex justify-content-between">
+                    <a href="@Url.Action("Edit", "Artesanos", new { id = artesano.Id })" class="btn btn-outline-primary btn-sm">Editar</a>
+                    <a href="@Url.Action("Delete", "Artesanos", new { id = artesano.Id })" class="btn btn-outline-danger btn-sm">Eliminar</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
