@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "version": "3.0",
   "defaultProvider": "cdnjs",
@@ -7,4 +8,10 @@
       "destination": "wwwroot/lib/jquery-validation-unobtrusive/"
     }
   ]
+=======
+{
+  "version": "3.0",
+  "defaultProvider": "cdnjs",
+  "libraries": []
+>>>>>>> b295d161dc62922848cb9705d6e50a596a092157
 }
